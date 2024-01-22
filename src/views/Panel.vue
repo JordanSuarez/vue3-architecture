@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import { inject, onMounted, onUnmounted, useSlots } from 'vue'
-
-const slots = useSlots();
-const registerSubmapComponent = inject('registerSubmapComponent');
-const unregisterSubmapComponent = inject('unregisterSubmapComponent');
+import { onMounted, onUnmounted } from 'vue'
 
 onMounted(() => {
   console.log('mounted PANEL')
-  registerSubmapComponent(slots.submap);
 })
 
 onUnmounted(() => {
   console.log('unmounted PANEL')
-  unregisterSubmapComponent()
 })
 </script>
 

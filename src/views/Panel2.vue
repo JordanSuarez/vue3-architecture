@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { inject, computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import Panel from '@/views/Panel.vue'
+import Submap2 from './Submap2.vue'
+
+const registerSubmapComponent = inject('registerSubmapComponent');
 
 const props = defineProps<{ test: any }>()
 
@@ -15,10 +18,16 @@ const data = computed(() => {
 
 onMounted(() => {
   console.log('mounted PANEL 2')
+  registerSubmapComponent(Submap2, {
+    test: 'panel2',
+    count,
+    data,
+  })
 })
 
 onBeforeUnmount(() => {
   console.log('unmounted PANEL 2')
+  //unregisterSubmapComponent()
 })
 </script>
 

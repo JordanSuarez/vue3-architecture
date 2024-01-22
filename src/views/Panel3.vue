@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import Panel from '@/views/Panel.vue'
-import Submap1 from './Submap1.vue';
+import Submap2 from './Submap2.vue'
 
 const registerSubmapComponent = inject('registerSubmapComponent');
 
@@ -16,34 +16,38 @@ const data = computed(() => {
   }))
 })
 
-
 onMounted(() => {
-  console.log('mounted PANEL 1')
-  registerSubmapComponent(Submap1, {
-    test: 'panel1',
+  console.log('mounted PANEL 3')
+  registerSubmapComponent(Submap2, {
+    test: 'panel2',
     count,
     data,
   })
 })
 
 onBeforeUnmount(() => {
-  console.log('unmounted PANEL 1')
+  console.log('unmounted PANEL 3')
+  //unregisterSubmapComponent()
 })
 </script>
 
 <template>
   <Panel>
     <template #panel>
-        <h1>
-          Panel 1 view
-          <button @click="count++" style="width: fit-content">Update</button>
-        </h1>
+      <h1>
+        Panel 3 view
+        <button @click="count++" style="width: fit-content">Update</button>
+      </h1>
 
-        <pre>
+      <pre>
           <code>
             {{ JSON.stringify({ test: props.test, count, data }, null, 2) }}
           </code>
         </pre>
+    </template>
+
+    <template #submap>
+      <router-view name="submap" :test="props.test" :count="count" :data="data" />
     </template>
   </Panel>
 </template>
