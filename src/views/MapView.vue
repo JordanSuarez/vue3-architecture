@@ -1,22 +1,26 @@
 <script setup>
-import { provide, onBeforeUnmount, onMounted, ref, reactive } from 'vue'
+import { provide, onBeforeUnmount, onMounted, ref } from 'vue'
 import GlobalMap from '@/views/GlobalMap.vue'
-import Panel from '@/views/Panel.vue'
 
 onMounted(() => {
   console.log('mounted MAP VIEW')
 })
 
-const components = ref([]);
+const submapComponent = ref(null);
 
-provide('registerComponent', (comp) => {
+provide('registerSubmapComponent', (comp) => {
   console.log({ comp })
-  components.value.push(comp)
+  submapComponent.value = comp
+});
+
+provide('unregisterSubmapComponent', () => {
+  submapComponent.value = null
 });
 
 
 onBeforeUnmount(() => {
   console.log('unmounted MAP VIEW')
+  submapComponent.value = null
 })
 
 
@@ -26,33 +30,22 @@ onBeforeUnmount(() => {
 <template>
   <div class="map">
     <h1>Parent map view</h1>
-      <GlobalMap>
-        <template #submap>
-          <component v-for="component in components" :is="component.slot" :data="component.props" />
-        </template>
-      </GlobalMap>
-
-
-<!--    <router-view v-slot="{ Component }" name="map">-->
-<!--      <keep-alive key="map">-->
-<!--        <component :is="Component" />-->
-<!--      </keep-alive>-->
-<!--    </router-view>-->
-
-
-    <Panel toto="fofofo">
-        <template #panel>
-          <router-view name="panel" />
-        </template>
-        <template #submap="{data}">
-          <router-view name="submap" :data="data" />
-        </template>
-    </Panel>
-
 
     <div class="link">
       <router-link to="/panel-1">Panel 1</router-link>
       <router-link to="/panel-2">Panel 2</router-link>
+    </div>
+
+    <div class="content">
+      <router-view name="panel" :test="{test: 'test props router'}" />
+
+      <div>
+        <GlobalMap>
+          <template #submap>
+            <component v-if="submapComponent" :is="submapComponent" />
+          </template>
+        </GlobalMap>
+      </div>
     </div>
   </div>
 </template>
@@ -63,6 +56,11 @@ onBeforeUnmount(() => {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
 }
 
 .link {

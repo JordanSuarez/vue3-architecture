@@ -1,13 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
-import Page from '@/views/Page.vue'
-import Panel from '@/views/Panel.vue'
-import Page1 from '@/views/Page1.vue'
 import Panel1 from '@/views/Panel1.vue'
 import MapView from '@/views/MapView.vue'
 import Submap1 from '@/views/Submap1.vue'
 import Submap2 from '@/views/Submap2.vue'
-import GlobalMap from '@/views/GlobalMap.vue'
 import Panel2 from '@/views/Panel2.vue'
 
 const router = createRouter({
@@ -46,23 +42,6 @@ router.addRoute('home', {
         submap: Submap2,
       },
       props: true,
-    },
-  ],
-})
-
-router.addRoute('home', {
-  name: 'page',
-  path: '',
-  components: {
-    default: Page,
-  },
-  children: [
-    {
-      name: 'page.1',
-      path: '/page-1',
-      components: {
-        default: Page1,
-      },
     },
   ],
 })

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { inject, onMounted, onUnmounted } from 'vue'
 
-const props = defineProps<{data: any}>()
+const props = defineProps<{test: any, count: any, data: any}>()
 
 const context = inject('context');
 
 onMounted(() => {
-  console.log('mounted SUB MAP 2', context, props.data)
+  console.log('mounted SUB MAP 2')
 })
 
 onUnmounted(() => {
@@ -15,5 +15,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <h1>Submap 2 view {{context}} {{props.data}}</h1>
+  <pre>
+    <code>
+      {{ JSON.stringify({ context, test: props.test, count: props.count, data: props.data }, null, 2) }}
+    </code>
+  </pre>
 </template>

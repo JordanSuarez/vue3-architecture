@@ -1,31 +1,30 @@
 <script setup lang="ts">
-import { inject, onBeforeUnmount, onMounted, provide, reactive, ref, useSlots } from 'vue'
-
-const props = defineProps<{ toto: string }>()
+import { inject, onMounted, onUnmounted, useSlots } from 'vue'
 
 const slots = useSlots();
-const registerComponent = inject('registerComponent');
-
-const data = ref(0)
-
-provide('panel', data);
+const registerSubmapComponent = inject('registerSubmapComponent');
+const unregisterSubmapComponent = inject('unregisterSubmapComponent');
 
 onMounted(() => {
   console.log('mounted PANEL')
-  registerComponent({
-    // panel: slots.panel,
-    slot: slots.submap,
-    props: data,
-  });
-  // registerComponent(slots);
+  registerSubmapComponent(slots.submap);
 })
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
   console.log('unmounted PANEL')
+  unregisterSubmapComponent()
 })
 </script>
 
 <template>
-  <slot name="panel"/>
-  <button @click="data++">Test</button>
+  <div class="panel">
+    <slot name="panel"/>
+  </div>
 </template>
+
+<style>
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+</style>
